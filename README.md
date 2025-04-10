@@ -10,8 +10,10 @@
 ## About <a name = "about"></a>
 
 A project to include different kind of pages & client requirement including code structure, best practices & most used libraries as well as frameworks.
-Technologies Used: 
-    HTML5, CSS3, SCSS, TypeScript, JavaScript, Bootstrap 5
+
+```
+Technologies Used:  HTML5, CSS3, SCSS, TypeScript, JavaScript, Bootstrap 5
+```
 
 ## Getting Started <a name = "getting_started"></a>
 
