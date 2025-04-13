@@ -1,6 +1,6 @@
 # Project Title
 ```
-TS App
+TypeScript App By Shyam Raj Verma
 ```
 
 ## Table of Contents
