@@ -38,9 +38,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
  * @classdesc A class to load related assets (CSS and JavaScript) required for the application.
  */
 var AssetLoader = /** @class */ (function () {
-    function AssetLoader(styles, scripts) {
+    function AssetLoader(styles, scripts, baseUrl) {
         this.styles = styles;
         this.scripts = scripts;
+        this.baseUrl = baseUrl;
     }
     /**
      * Loads stylesheets, header, footer, and scripts asynchronously.
@@ -62,11 +63,11 @@ var AssetLoader = /** @class */ (function () {
                             document.head.appendChild(link);
                         });
                         // Load Header and Footer
-                        return [4 /*yield*/, this.loadHtmlContent('include/nav.html', 'nav', true)];
+                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/nav.html', 'nav', true)];
                     case 1:
                         // Load Header and Footer
                         _a.sent();
-                        return [4 /*yield*/, this.loadHtmlContent('include/footer.html', 'footer', false)];
+                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/footer.html', 'footer', false)];
                     case 2:
                         _a.sent();
                         // To load Scripts
@@ -117,18 +118,57 @@ var AssetLoader = /** @class */ (function () {
     };
     return AssetLoader;
 }());
+/**
+ * @class EnvironmentChecker
+ * @classdesc A class to check the environment (live or local) of the application.
+ */
+var EnvironmentChecker = /** @class */ (function () {
+    function EnvironmentChecker() {
+        this.hostname = window.location.hostname;
+    }
+    // To check the environment and log the result in the console. Returns true if running in a live environment, false otherwise.
+    EnvironmentChecker.prototype.checkEnvironment = function () {
+        if (this.isLive()) {
+            console.log("Running in a live environment.");
+            return true;
+        }
+        else if (this.isLocal()) {
+            console.log("Running in a local environment.");
+            return false;
+        }
+        else {
+            console.log("Running in an unknown environment.");
+            return true;
+        }
+    };
+    // To check the local environment
+    EnvironmentChecker.prototype.isLocal = function () {
+        return this.hostname === "localhost" || this.hostname === "127.0.0.1" || this.hostname === "::1";
+    };
+    // To check the live environment
+    EnvironmentChecker.prototype.isLive = function () {
+        var liveDomains = ["https://srv-git.github.io/"]; // Add your live domains here
+        return liveDomains.includes(this.hostname);
+    };
+    return EnvironmentChecker;
+}());
+// To get the live status    
+var envChecker = new EnvironmentChecker();
+var live = envChecker.checkEnvironment();
+var baseUrl = live ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
+console.log('live', live, baseUrl); // TODO remove it later 
 // CSS files path to be loaded
 var styleFiles = [
-    'style/css/bootstrap.min.css',
-    'style/css/style.css'
+    baseUrl + 'style/css/bootstrap.min.css',
+    baseUrl + 'style/css/style.css'
 ];
 // JS files path to be loaded
 var scriptFiles = [
-    'script/js/bootstrap.min.js',
-    'script/js/script.js'
+    baseUrl + 'script/js/bootstrap.min.js',
+    baseUrl + 'script/js/script.js'
 ];
 // Create an instance of class (AssetLoader)
-var assetLoader = new AssetLoader(styleFiles, scriptFiles);
+var assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 // Load assets when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', function () { return assetLoader.loadAssets(); });
+document.addEventListener('DOMContentLoaded', function () { return assetLoaderObj.loadAssets(); });
 //# sourceMappingURL=loadAssets.js.map

@@ -5,10 +5,12 @@
 class AssetLoader {
     private styles: string[];
     private scripts: string[];
+    private baseUrl: string;
 
-    constructor(styles: string[], scripts: string[]) {
+    constructor(styles: string[], scripts: string[], baseUrl: string) {
         this.styles = styles;
         this.scripts = scripts;
+        this.baseUrl = baseUrl;
     }
 
     /**
@@ -26,8 +28,8 @@ class AssetLoader {
                 document.head.appendChild(link);
             });            
             // Load Header and Footer
-            await this.loadHtmlContent('include/nav.html', 'nav', true);
-            await this.loadHtmlContent('include/footer.html', 'footer', false);
+            await this.loadHtmlContent(this.baseUrl+'include/nav.html', 'nav', true);
+            await this.loadHtmlContent(this.baseUrl+'include/footer.html', 'footer', false);
             // To load Scripts
              this.scripts.forEach((script: string): void => {
                 const scriptTag: HTMLScriptElement = document.createElement('script');
@@ -46,29 +48,72 @@ class AssetLoader {
      * @param {boolean} prepend 
      * @returns {Promise<void>}
      */
-    async loadHtmlContent(url: string, elementTag: string, prepend: boolean): Promise<void> {
+    private async loadHtmlContent(url: string, elementTag: string, prepend: boolean): Promise<void> {
         const parser = new DOMParser(); // Html parser
         let data = await fetch(url);
         const htmlContent = parser.parseFromString(await data.text(), 'text/html');
         const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
-        prepend? document.body.prepend(htmlTag) : document.body.append(htmlTag);
+        prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
     }
 }
 
+/**
+ * @class EnvironmentChecker
+ * @classdesc A class to check the environment (live or local) of the application.
+ */
+class EnvironmentChecker {
+    private hostname: string;
+
+    constructor() {
+        this.hostname = window.location.hostname;
+    }
+
+    // To check the environment and log the result in the console. Returns true if running in a live environment, false otherwise.
+    public checkEnvironment(): boolean {
+        if (this.isLive()) {
+            console.log("Running in a live environment.");
+            return true;
+        } else if (this.isLocal()) {
+            console.log("Running in a local environment.");
+            return false;
+        } else {
+            console.log("Running in an unknown environment.");
+            return true;
+        }
+    }
+
+    // To check the local environment
+    private isLocal(): boolean {
+        return this.hostname === "localhost" || this.hostname === "127.0.0.1" || this.hostname === "::1";
+    }
+
+    // To check the live environment
+    private isLive(): boolean {
+        const liveDomains = ["https://srv-git.github.io/"]; // Add your live domains here
+        return liveDomains.includes(this.hostname);
+    }
+}
+
+// To get the live status    
+const envChecker = new EnvironmentChecker();
+const live = envChecker.checkEnvironment();
+const baseUrl = live ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
+console.log('live', live, baseUrl) // TODO remove it later 
+
 // CSS files path to be loaded
 const styleFiles = [
-    'style/css/bootstrap.min.css',
-    'style/css/style.css'
+    baseUrl+'style/css/bootstrap.min.css',
+    baseUrl+'style/css/style.css'
 ];
 
 // JS files path to be loaded
 const scriptFiles = [
-    'script/js/bootstrap.min.js',
-    'script/js/script.js'
+    baseUrl+'script/js/bootstrap.min.js',
+    baseUrl+'script/js/script.js'
 ];
 
 // Create an instance of class (AssetLoader)
-const assetLoader = new AssetLoader(styleFiles, scriptFiles);
+const assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 
 // Load assets when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', () => assetLoader.loadAssets());
+document.addEventListener('DOMContentLoaded', () => assetLoaderObj.loadAssets());
