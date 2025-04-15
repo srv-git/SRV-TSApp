@@ -1,126 +1,119 @@
 /**
  * @class AssetLoader
  * @classdesc A class to load related assets (CSS and JavaScript) required for the application.
- * 
- * This class allows you to specify an array of stylesheets and scripts that will be dynamically 
- * loaded into the document when the `loadAssets` method is called.
  */
 class AssetLoader {
     private styles: string[];
     private scripts: string[];
+    private baseUrl: string;
 
-    /**
-     * Creates an instance of AssetLoader.
-     * 
-     * @param {string[]} styles - An array of css files path to be loaded.
-     * @param {string[]} scripts - An array of JS files path to be loaded.
-     */
-    constructor(styles: string[], scripts: string[]) {
+    constructor(styles: string[], scripts: string[], baseUrl: string) {
         this.styles = styles;
         this.scripts = scripts;
+        this.baseUrl = baseUrl;
     }
 
     /**
-     * Loads the specified styles and scripts into the document.
-     * 
-     * This method creates <link> elements for stylesheets and <script> elements for JavaScript files,
-     * appending them to the document's head and body respectively.
-     * 
-     * @returns {void}
+     * Loads stylesheets, header, footer, and scripts asynchronously.
+     * @returns {Promise<void>}
+     * @throws {Error} 
      */
-    public loadAssets(): void {
-        this.styles.forEach((style: string) => {
-            const link: HTMLLinkElement = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = style;
-            document.head.appendChild(link);
-        });
-        this.functionToSetHeader(); // To include header
-        this.functionToSetFooter(); // To include Footer
-        this.scripts.forEach((script: string) => {
-            const scriptTag: HTMLScriptElement = document.createElement('script');
-            scriptTag.src = script;
-            document.body.appendChild(scriptTag);
-        });
-    }
+    public async loadAssets(): Promise<void> {
+		try{
+            // Load stylesheets
+            this.styles.forEach((style: string): void => {
+                const link: HTMLLinkElement = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = style;
+                document.head.appendChild(link);
+            });            
+            // Load Header and Footer
+            await this.loadHtmlContent(this.baseUrl+'include/nav.html', 'nav', true);
+            await this.loadHtmlContent(this.baseUrl+'include/footer.html', 'footer', false);
+            // To load Scripts
+             this.scripts.forEach((script: string): void => {
+                const scriptTag: HTMLScriptElement = document.createElement('script');
+                scriptTag.src = script;
+                document.body.appendChild(scriptTag);
+            });
+		} catch(error) {
+		        console.error('There was a problem with the fetch operation:', error);
+	    };
+	}
 
     /**
-     * Fetches the navigation HTML from 'include/nav.html' and prepends it to the body of the document.
-     * 
-     * This function performs an asynchronous fetch request to retrieve the navigation HTML content,
-     * parses it, and inserts the <nav> element into the document body. If the fetch fails or the 
-     * response is not OK, an error is logged to the console.
-     * 
-     * @returns {void} This function does not return a value.
-     * 
-     * @throws {Error} Throws an error if the fetch request fails or if the response is not OK.
+     * Fetches HTML content from the URL, parses it, and inserts into the document.
+     * @param {string} url 
+     * @param {string} elementTag 
+     * @param {boolean} prepend 
+     * @returns {Promise<void>}
      */
-    functionToSetHeader(): void {
-        fetch('include/nav.html')
-            .then((response: Response): Promise<string> => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then((htmlString: string): void => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlString, 'text/html');
-                // Now you can use DOM methods on `doc`
-                const nav: HTMLElement = doc.querySelector('nav')!;
-                document.body.prepend(nav);
-            })
-            .catch((error: Error): void => {
-                console.error('Error loading nav.html:', error);
-            });
-    }
-
-    /**
-     * Fetches the footer HTML from 'include/footer.html' and prepends it to the body of the document.
-     * 
-     * This function performs an asynchronous fetch request to retrieve the footer HTML content,
-     * parses it, and inserts the <footer> element into the document body. If the fetch fails or the 
-     * response is not OK, an error is logged to the console.
-     * 
-     * @returns {void} This function does not return a value.
-     * 
-     * @throws {Error} Throws an error if the fetch request fails or if the response is not OK.
-    */
-    functionToSetFooter(): void {
-        fetch('include/footer.html')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then((htmlString: string) => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlString, 'text/html');
-                // Now you can use DOM methods on `doc`
-                const footer: HTMLElement = doc.querySelector('footer')!;
-                document.body.append(footer);
-            })
-            .catch(error => {
-                console.error('Error loading footer.html:', error);
-            });
+    private async loadHtmlContent(url: string, elementTag: string, prepend: boolean): Promise<void> {
+        const parser = new DOMParser(); // Html parser
+        let data = await fetch(url);
+        const htmlContent = parser.parseFromString(await data.text(), 'text/html');
+        const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
+        prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
     }
 }
 
+/**
+ * @class EnvironmentChecker
+ * @classdesc A class to check the environment (live or local) of the application.
+ */
+class EnvironmentChecker {
+    private hostname: string;
+
+    constructor() {
+        this.hostname = window.location.hostname;
+    }
+
+    // To check the environment and log the result in the console. Returns true if running in a live environment, false otherwise.
+    public checkEnvironment(): boolean {
+        if (this.isLive()) {
+            console.log("Running in a live environment.");
+            return true;
+        } else if (this.isLocal()) {
+            console.log("Running in a local environment.");
+            return false;
+        } else {
+            console.log("Running in an unknown environment.");
+            return true;
+        }
+    }
+
+    // To check the local environment
+    private isLocal(): boolean {
+        return this.hostname === "localhost" || this.hostname === "127.0.0.1" || this.hostname === "::1";
+    }
+
+    // To check the live environment
+    private isLive(): boolean {
+        const liveDomains = ["https://srv-git.github.io/"]; // Add your live domains here
+        return liveDomains.includes(this.hostname);
+    }
+}
+
+// To get the live status    
+const envChecker = new EnvironmentChecker();
+const live = envChecker.checkEnvironment();
+const baseUrl = live ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
+console.log('live', live, baseUrl) // TODO remove it later 
+
 // CSS files path to be loaded
 const styleFiles = [
-    'style/css/bootstrap.min.css',
-    'style/css/style.css'
+    baseUrl+'style/css/bootstrap.min.css',
+    baseUrl+'style/css/style.css'
 ];
 
 // JS files path to be loaded
 const scriptFiles = [
-    'script/js/bootstrap.min.js',
-    'script/js/script.js'
+    baseUrl+'script/js/bootstrap.min.js',
+    baseUrl+'script/js/script.js'
 ];
 
-// Create an instance of AssetLoader with the specified styles and scripts
-const assetLoader = new AssetLoader(styleFiles, scriptFiles);
+// Create an instance of class (AssetLoader)
+const assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 
 // Load assets when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', () => assetLoader.loadAssets());
+document.addEventListener('DOMContentLoaded', () => assetLoaderObj.loadAssets());
