@@ -116,4 +116,10 @@ const scriptFiles = [
 const assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 
 // Load assets when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', () => assetLoaderObj.loadAssets());
+document.addEventListener('DOMContentLoaded', () =>{
+    const baseElement = document.querySelector('head base');
+    if (baseElement) {
+        baseElement['href'] = baseUrl;
+    }
+     assetLoaderObj.loadAssets();
+});

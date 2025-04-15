@@ -170,5 +170,11 @@ var scriptFiles = [
 // Create an instance of class (AssetLoader)
 var assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 // Load assets when the DOM content is fully loaded
-document.addEventListener('DOMContentLoaded', function () { return assetLoaderObj.loadAssets(); });
+document.addEventListener('DOMContentLoaded', function () {
+    var baseElement = document.querySelector('head base');
+    if (baseElement) {
+        baseElement['href'] = baseUrl;
+    }
+    assetLoaderObj.loadAssets();
+});
 //# sourceMappingURL=loadAssets.js.map
