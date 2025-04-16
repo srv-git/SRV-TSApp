@@ -2,3 +2,10 @@
 .logo{
     max-width: 38px;
 }
+.toggle-hover{
+    &:hover{
+        .dropdown-menu{
+            display: initial;
+        }
+    }
+}
