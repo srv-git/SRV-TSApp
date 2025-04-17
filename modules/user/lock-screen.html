@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lock Screen</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <base href="http://127.0.0.1:5500/">
+    <script src="../script/js/loadAssets.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row">
+          <div class="col-12 text-center">
+            <form class="text-start w-50 mx-auto my-5"
+              onsubmit="event.preventDefault();">
+              <h3 class="mb-3 text-center">Hi John Doe!</h3>
+              <p>
+                Enter your password to unlock your account.
+              </p>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" minlength="8" maxlength="24" />
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mb-4">
+                Log In
+              </button>
+              <p class="text-center">
+                Not you? return <a href="modules/user/login.html"> Sign In</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

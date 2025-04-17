@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+  <base href="http://127.0.0.1:5500/" />
+  <script src="../script/js/loadAssets.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <form class="text-start w-50 mx-auto my-5" onsubmit="event.preventDefault();">
+          <h3 class="mb-3 text-center">Log In</h3>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" />
+            <div id="emailHelp" class="form-text">
+              We'll never share your email with anyone else.
+            </div>
+          </div>
+          <div class="mb-3">
+            <a href="modules/user/forgot-password.html" class="text-muted float-end"><small>Forgot your
+                password?</small></a>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" minlength="8" maxlength="24" />
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="terms" />
+            <label class="form-check-label" for="terms">
+              I agree to the
+              <a href="privacy-policy.html">Privacy Policy</a> and
+              <a href="terms-conditions.html">T & C</a>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 mb-4">
+            Sign In
+          </button>
+          <p class="text-center">
+            Don't have an account?<a href="modules/user/register.html">
+              Sign Up</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
