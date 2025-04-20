@@ -1,38 +1,114 @@
-<nav class="navbar navbar-expand-sm bg-body-secondary">
-  <div class="container">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a href="index.html" class="nav-link py-0">
-          <img src="img/logo.jpg" alt="Home" class="rounded-circle logo" />
-        </a>
-      </li>
-      <li class="nav-item toggle-hover">
-        <a class="nav-link dropdown-toggle" onclick="event.preventDefault();" href="#" id="ExpertiseLink" role="button">
-          Expertise        
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="ExpertiseLink">
-          <li><a class="dropdown-item" href="services.html">Service</a></li>
-          <li><a class="dropdown-item" href="services.html">Service 2</a></li>
-          <li><a class="dropdown-item" href="services.html">Service 3</a></li>
-        </ul>  
-      </li>
-      <li class="nav-item">
-        <a href="products.html" class="nav-link">Product</a>
-      </li>
-      <li class="nav-item">
-        <a href="pricing.html" class="nav-link">Pricing</a>
-      </li>
-      <li class="nav-item">
-        <a href="contact.html" class="nav-link">Contact</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a href="modules/user/login.html" class="nav-link">Login</a>
-      </li>
-      <li class="nav-item">
-        <a href="modules/user/register.html" class="nav-link">Register</a>
-      </li>
-    </ul>
+<nav>
+  <div class="navbar navbar-expand-sm bg-body-secondary sidenavbar">
+    <div class="container">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link py-0 logo">
+            <img src="img/logo.jpg" alt="Home" class="rounded-circle logo__img" />
+          </a>
+        </li>
+        <li class="nav-item toggle-hover">
+          <a class="nav-link dropdown-toggle prevent__Default" href="#" id="ExpertiseLink" role="button">
+            Expertise        
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="ExpertiseLink">
+            <li><a class="dropdown-item" href="services.html">My Services</a></li>
+            <li><a class="dropdown-item" href="css-animation.html">CSS Animation</a></li>
+            <li><a class="dropdown-item" href="js-ts-animation.html">JS/TS Animation</a></li>
+            <li><a class="dropdown-item" href="svg-animation.html">Svg Animation</a></li>
+            <li><a class="dropdown-item" href="cancas-animation.html">Canvas Animation</a></li>
+          </ul>
+        </li>
+        <li class="nav-item toggle-hover">
+          <a class="nav-link dropdown-toggle prevent__Default" href="#" id="ProductLink" role="button">Products</a>
+          <ul class="dropdown-menu" aria-labelledby="ProductLink">
+            <li><a class="dropdown-item" href="products.html">My Products</a></li>
+            <li><a class="dropdown-item" href="to-do.html">ToDo App</a></li>
+            <li><a class="dropdown-item" href="calculator.html">Calculator App</a></li>
+            <li><a class="dropdown-item" href="snake.html">Snake Game App</a></li>
+            <li><a class="dropdown-item" href="food-budget.html">Recipe & Budget App</a></li>
+            <li><a class="dropdown-item" href="ecommerce.html">E-commerce App</a></li>
+            <li><a class="dropdown-item" href="chat-app.html">Chat App</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="pricing.html" class="nav-link">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="modules/user/login.html" class="nav-link">Admin</a> <!--TODO remove it later-->
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/login.html" class="nav-link">User</a> <!--TODO remove it later-->
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/login.html" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/register.html" class="nav-link">Register</a>
+        </li>
+        <li class="nav-item toggle__sidebar">
+          <a href="#" class="nav-link prevent__Default">Menu</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- overlay -->
+   <div id="sidebar" class="sidebar__overlay" >    <!-- Sidebar Html -->
+    <div class="sidebar stop__propogation">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link py-0 sidebar__logo">
+            <img src="img/logo.jpg" alt="Home" class="rounded-circle logo__img" />
+            SRV APP
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle prevent__Default" href="#" id="ExpertiseLink" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+            Expertise        
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="ExpertiseLink">
+            <li><a class="dropdown-item" href="services.html">My Services</a></li>
+            <li><a class="dropdown-item" href="css-animation.html">CSS Animation</a></li>
+            <li><a class="dropdown-item" href="js-ts-animation.html">JS/TS Animation</a></li>
+            <li><a class="dropdown-item" href="svg-animation.html">Svg Animation</a></li>
+            <li><a class="dropdown-item" href="cancas-animation.html">Canvas Animation</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link dropdown-toggle prevent__Default" href="#" id="ProductLink" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">Products</a>
+          <ul class="dropdown-menu" aria-labelledby="ProductLink">
+            <li><a class="dropdown-item" href="products.html">My Products</a></li>
+            <li><a class="dropdown-item" href="to-do.html">ToDo App</a></li>
+            <li><a class="dropdown-item" href="calculator.html">Calculator App</a></li>
+            <li><a class="dropdown-item" href="snake.html">Snake Game App</a></li>
+            <li><a class="dropdown-item" href="food-budget.html">Recipe & Budget App</a></li>
+            <li><a class="dropdown-item" href="ecommerce.html">E-commerce App</a></li>
+            <li><a class="dropdown-item" href="chat-app.html">Chat App</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="pricing.html" class="nav-link">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/login.html" class="nav-link">Admin Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/login.html" class="nav-link">Login</a>
+        </li>
+        <li class="nav-item">
+          <a href="modules/user/register.html" class="nav-link">Register</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
