@@ -1,8 +1,6 @@
 
-// document.addEventListener('DOMContentLoaded', () =>{
-
-    // Select all elements with the class 'stop__propogation'
-    var stopPropagations = document.querySelectorAll('.stop__propogation');
+    // Select all elements with the class 'stop__propagation'
+    var stopPropagations = document.querySelectorAll('.stop__propagation');
 
     // Check if any elements were found
     console.log(stopPropagations)
@@ -51,18 +49,3 @@
             });
         });
     }
-    // Select all elements with the class 'toggle__sidebar'
-    // let sidebarTogglers = document.querySelectorAll('.toggle__sidebar');
-    // console.log(sidebarTogglers)
-    // // Check if sidebarTogglers were found
-    // if (sidebarTogglers) {
-    //     // Loop through each element and add a click event listener
-    //     sidebarTogglers.forEach(function(element) {
-    //         element.addEventListener('click', function(event) {
-    //             event.preventDefault(); // Prevent default action
-    //             event.stopPropagation(); // Prevent event from bubbling up
-    //             document.getElementById('sidebar')?.classList.toggle('show');
-    //         });
-    //     });
-    // }
-// });

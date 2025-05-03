@@ -54,7 +54,7 @@ var AssetLoader = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 4, , 5]);
                         // Load stylesheets
                         this.styles.forEach(function (style) {
                             var link = document.createElement('link');
@@ -63,12 +63,15 @@ var AssetLoader = /** @class */ (function () {
                             document.head.appendChild(link);
                         });
                         // Load Header and Footer
-                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/nav.html', 'nav', true)];
+                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/shared-head.html', 'head', true)];
                     case 1:
                         // Load Header and Footer
                         _a.sent();
-                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/footer.html', 'footer', false)];
+                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/nav.html', 'nav', true)];
                     case 2:
+                        _a.sent();
+                        return [4 /*yield*/, this.loadHtmlContent(this.baseUrl + 'include/footer.html', 'footer', false)];
+                    case 3:
                         _a.sent();
                         // To load Scripts
                         this.scripts.forEach(function (script) {
@@ -76,12 +79,12 @@ var AssetLoader = /** @class */ (function () {
                             scriptTag.src = script;
                             document.body.appendChild(scriptTag);
                         });
-                        return [3 /*break*/, 4];
-                    case 3:
+                        return [3 /*break*/, 5];
+                    case 4:
                         error_1 = _a.sent();
                         console.error('There was a problem with the fetch operation:', error_1);
-                        return [3 /*break*/, 4];
-                    case 4:
+                        return [3 /*break*/, 5];
+                    case 5:
                         ;
                         return [2 /*return*/];
                 }
@@ -109,8 +112,15 @@ var AssetLoader = /** @class */ (function () {
                         return [4 /*yield*/, data.text()];
                     case 2:
                         htmlContent = _b.apply(_a, [_c.sent(), 'text/html']);
-                        htmlTag = htmlContent.querySelector(elementTag);
-                        prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
+                        if (elementTag === 'head') {
+                            Array.from(htmlContent.head.childNodes).reverse().forEach(function (node) {
+                                ['LINK', 'BASE', 'META', '#comment'].includes(node.nodeName) && document.head.prepend(node);
+                            });
+                        }
+                        else {
+                            htmlTag = htmlContent.querySelector(elementTag);
+                            prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
+                        }
                         return [2 /*return*/];
                 }
             });
