@@ -165,7 +165,7 @@ var EnvironmentChecker = /** @class */ (function () {
 // To get the live status    
 var envChecker = new EnvironmentChecker();
 var live = envChecker.checkEnvironment();
-var baseUrl = live ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
+var baseUrl = true ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
 console.log('live', live, baseUrl); // TODO remove it later 
 // CSS files path to be loaded
 var styleFiles = [
@@ -181,10 +181,13 @@ var scriptFiles = [
 var assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 // Load assets when the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', function () {
+    assetLoaderObj.loadAssets();
     var baseElement = document.querySelector('head base');
     if (baseElement) {
         baseElement['href'] = baseUrl;
     }
-    assetLoaderObj.loadAssets();
+    else {
+        console.log('base not found!');
+    }
 });
 //# sourceMappingURL=loadAssets.js.map
