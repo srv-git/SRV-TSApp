@@ -60,6 +60,7 @@
     box-shadow: -5px 17px 12px #888;
     margin-left: -251px;
     transition: all 0.3s ease 0s;
+    overflow: auto;
     .sidebar__logo{
         margin-bottom: 20px;
     }
@@ -97,7 +98,7 @@
     .toggle__sidebar{
         display: initial;
     }
-    .sidenavbar{
+    .navbar{
         .navbar-nav{
             &:first-child{
                 > li{

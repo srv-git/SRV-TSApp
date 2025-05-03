@@ -28,9 +28,8 @@ class AssetLoader {
                 document.head.appendChild(link);
             });            
             // Load Header and Footer
-            await this.loadHtmlContent(this.baseUrl+'include/shared-head.html', 'head', true);
-            await this.loadHtmlContent(this.baseUrl+'include/nav.html', 'nav', true);
-            await this.loadHtmlContent(this.baseUrl+'include/footer.html', 'footer', false);
+            await this.loadHtmlContent(this.baseUrl+'include/user-header.html', 'nav', true);
+            await this.loadHtmlContent(this.baseUrl+'include/user-footer.html', 'footer', false);
             // To load Scripts
              this.scripts.forEach((script: string): void => {
                 const scriptTag: HTMLScriptElement = document.createElement('script');
@@ -53,14 +52,8 @@ class AssetLoader {
         const parser = new DOMParser(); // Html parser
         let data = await fetch(url);
         const htmlContent = parser.parseFromString(await data.text(), 'text/html');
-        if(elementTag === 'head'){
-            Array.from(htmlContent.head.childNodes as NodeListOf<ChildNode>).reverse().forEach((node: ChildNode)=>{
-                ['LINK','BASE','META','#comment'].includes(node.nodeName)  && document.head.prepend(node);
-            })
-        } else {
-            const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
-            prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
-        }
+        const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
+        prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
     }
 }
 
