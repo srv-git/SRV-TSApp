@@ -100,7 +100,7 @@ var AssetLoader = /** @class */ (function () {
      */
     AssetLoader.prototype.loadHtmlContent = function (url, elementTag, prepend) {
         return __awaiter(this, void 0, void 0, function () {
-            var parser, data, htmlContent, _a, _b, htmlTag;
+            var parser, data, htmlContent, _a, _b, baseElement, htmlTag;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
@@ -116,6 +116,13 @@ var AssetLoader = /** @class */ (function () {
                             Array.from(htmlContent.head.childNodes).reverse().forEach(function (node) {
                                 ['LINK', 'BASE', 'META', '#comment'].includes(node.nodeName) && document.head.prepend(node);
                             });
+                            baseElement = document.querySelector('head base');
+                            if (baseElement) {
+                                baseElement['href'] = baseUrl;
+                            }
+                            else {
+                                console.log('base not found!');
+                            }
                         }
                         else {
                             htmlTag = htmlContent.querySelector(elementTag);
@@ -165,7 +172,7 @@ var EnvironmentChecker = /** @class */ (function () {
 // To get the live status    
 var envChecker = new EnvironmentChecker();
 var live = envChecker.checkEnvironment();
-var baseUrl = true ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
+var baseUrl = live ? 'https://srv-git.github.io/SRV-TSApp/' : 'http://127.0.0.1:5500/'; // change to baseUrlLocal for local development
 console.log('live', live, baseUrl); // TODO remove it later 
 // CSS files path to be loaded
 var styleFiles = [
@@ -182,12 +189,5 @@ var assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 // Load assets when the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', function () {
     assetLoaderObj.loadAssets();
-    var baseElement = document.querySelector('head base');
-    if (baseElement) {
-        baseElement['href'] = baseUrl;
-    }
-    else {
-        console.log('base not found!');
-    }
 });
 //# sourceMappingURL=loadAssets.js.map
