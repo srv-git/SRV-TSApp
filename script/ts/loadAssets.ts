@@ -28,6 +28,7 @@ class AssetLoader {
                 document.head.appendChild(link);
             });            
             // Load Header and Footer
+            await this.loadHtmlContent(this.baseUrl+'include/shared-head.html', 'head', true);
             await this.loadHtmlContent(this.baseUrl+'include/nav.html', 'nav', true);
             await this.loadHtmlContent(this.baseUrl+'include/footer.html', 'footer', false);
             // To load Scripts
@@ -52,8 +53,20 @@ class AssetLoader {
         const parser = new DOMParser(); // Html parser
         let data = await fetch(url);
         const htmlContent = parser.parseFromString(await data.text(), 'text/html');
-        const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
-        prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
+        if(elementTag === 'head'){
+            Array.from(htmlContent.head.childNodes as NodeListOf<ChildNode>).reverse().forEach((node: ChildNode)=>{
+                ['LINK','BASE','META','#comment'].includes(node.nodeName)  && document.head.prepend(node);
+            })
+            const baseElement = document.querySelector('head base');
+            if (baseElement) {
+                baseElement['href'] = baseUrl;
+            } else{
+                console.log('base not found!')
+            }
+        } else {
+            const htmlTag: HTMLElement = htmlContent.querySelector(elementTag)!;
+            prepend ? document.body.prepend(htmlTag) : document.body.append(htmlTag);
+        }
     }
 }
 
@@ -117,9 +130,5 @@ const assetLoaderObj = new AssetLoader(styleFiles, scriptFiles, baseUrl);
 
 // Load assets when the DOM content is fully loaded
 document.addEventListener('DOMContentLoaded', () =>{
-    const baseElement = document.querySelector('head base');
-    if (baseElement) {
-        baseElement['href'] = baseUrl;
-    }
-     assetLoaderObj.loadAssets();
+    assetLoaderObj.loadAssets();
 });

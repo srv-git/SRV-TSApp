@@ -1,0 +1,119 @@
+
+.navbar {
+    ul:not(.dropdown-menu){
+        >li {
+            >a:not(.dropdown-toggle){
+                &::after{
+                    content: "";
+                    width: 0;
+                    height: 2px;
+                    display: block;
+                    clear: both;
+                    margin: auto;
+                    background-color: var(--bs-danger-border-subtle);
+                    transition: width 0.2s ease-in-out 0s;
+                }
+            }
+            &:hover{
+                >a:not(.logo):not(.dropdown-toggle){
+                    &::after{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+.sidebar__overlay{
+    &::after{
+        position: fixed;
+        z-index: 99;
+        background-color: #000;
+        opacity: 0;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.2s ease-in-out 0s;
+        content: '';
+    }
+    &.show{
+        &::after{            
+            left: 0;
+            opacity: 0.7;
+        }
+        .sidebar{
+            margin-left: 0;
+        }
+    }
+}
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    max-width: 251px;
+    width: 100%;
+    box-shadow: -5px 17px 12px #888;
+    margin-left: -251px;
+    transition: all 0.3s ease 0s;
+    overflow: auto;
+    .sidebar__logo{
+        margin-bottom: 20px;
+    }
+    a {
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        display: block;
+        &:not(.sidebar__logo):hover{
+            background-color: #e9ecef;
+        }
+    }
+    .dropdown-menu{
+        &.show{
+            padding: 0;
+            border: none;
+            transform: translate(0,0) !important;
+            position: relative !important;
+            li{
+                a{
+                    padding-left: 30px;
+                }
+            }
+        }
+    }
+    .logo__img{
+        max-width: 65px;
+    }
+}
+.toggle__sidebar{
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .toggle__sidebar{
+        display: initial;
+    }
+    .navbar{
+        .navbar-nav{
+            &:first-child{
+                > li{
+                    &:not(:first-child){
+                        display: none;
+                    }
+                }
+            }
+            &:last-child{
+                >li{
+                    &:not(:last-child){
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

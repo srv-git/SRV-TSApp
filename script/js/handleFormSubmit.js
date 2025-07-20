@@ -1,0 +1,1 @@
+var HandleFormSubmit=function(){function t(t){this.form=t,this.form.addEventListener("submit",this.handleSubmit.bind(this))}return t.prototype.handleLoginForm=function(){},t.prototype.handleRegisterForm=function(){},t.prototype.handleResetForm=function(){},t.prototype.handleForgotPasswordForm=function(){},t}();
